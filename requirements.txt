@@ -1,0 +1,10 @@
+# matplotlib
+# seaborn
+pandas
+numpy
+dill
+scikit-learn
+flask
+# gunicorn
+
+-e .

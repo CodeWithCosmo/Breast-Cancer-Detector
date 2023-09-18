@@ -9,6 +9,7 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+logs/
 develop-eggs/
 dist/
 downloads/
@@ -40,6 +41,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .nox/
+.vscode/
 .coverage
 .coverage.*
 .cache
@@ -50,6 +52,7 @@ coverage.xml
 .hypothesis/
 .pytest_cache/
 cover/
+catboost_info/
 
 # Translations
 *.mo
