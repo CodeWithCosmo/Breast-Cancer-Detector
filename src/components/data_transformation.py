@@ -7,7 +7,7 @@ from dataclasses import dataclass
 
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
-from sklearn.preprocessing import OneHotEncoder,StandardScaler
+from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from src.logger import logging as lg
 from src.exception import CustomException
@@ -23,27 +23,16 @@ class DataTransformation:
 
     def get_data_transformer(self):
         try:
-            numerical_features = ['writing_score','reading_score']
-            categorical_features = [
-                'gender','race_ethnicity','parental_level_of_education','lunch','test_preparation_course']
-            
-            numerical_pipeline = Pipeline(steps=[
-                ('imputer',SimpleImputer(strategy='median')),
+            features = ['mean radius','mean perimeter','mean area','mean concavity','mean concave points',
+                         'worst radius','worst perimeter','worst area','worst concavity','worst concave points']
+            pipeline = Pipeline(steps=[
+                ('imputer',SimpleImputer(strategy='mean')),
                 ('scaler',StandardScaler())
             ])
-            lg.info('Numerical pipeline created')
-
-            categorical_pipeline = Pipeline(steps=[
-                ('imputer',SimpleImputer(strategy='most_frequent')),
-                ('onehot',OneHotEncoder()), 
-                ('scaler',StandardScaler(with_mean=False))              
-
-            ])
-            lg.info('Categorical pipeline created')
+            lg.info('Numerical pipeline created')          
             
             preprocessor = ColumnTransformer(
-                [('numerical',numerical_pipeline,numerical_features),
-                 ('categorical',categorical_pipeline,categorical_features)]
+                [('features',pipeline,features)]
             )
             lg.info('Preprocessor created')
             return preprocessor
@@ -62,8 +51,9 @@ class DataTransformation:
 
             preprocessor = self.get_data_transformer()
 
-            target_column = ['math_score']
-            numerical_column = ['writing_score','reading_score']
+            target_column = ['target']
+            features = ['mean radius','mean perimeter','mean area','mean concavity','mean concave points',
+                        'worst radius','worst perimeter','worst area','worst concavity','worst concave points']
 
             input_feature_train_df = train_df.drop(target_column,axis=1)
             target_feature_train_df = train_df[target_column]            
@@ -81,7 +71,7 @@ class DataTransformation:
             train_arr = np.c_[input_feature_train_arr,np.array(target_feature_train_df)]
             test_arr = np.c_[input_feature_test_arr,np.array(target_feature_test_df)]
 
-            #* NOTE: `np.c_` is a special object in NumPy that is used to concatenate arrays along their second axis.            
+            #? NOTE: `np.c_` is a special object in NumPy that is used to concatenate arrays along their second axis.            
             
             lg.info('Saving preprocessor object')
             save_object(self.data_transformation_config.preprocessor_obj_file_path,preprocessor)

@@ -2,6 +2,7 @@ import os
 import sys
 import pandas as pd
 from dataclasses import dataclass
+from pymongo import MongoClient
 from src.exception import CustomException
 from sklearn.model_selection import train_test_split
 from src.logger import logging as lg
@@ -25,15 +26,42 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         lg.info('Initiating data ingestion')
         try:
-            data = pd.read_csv('notebook/data/StudentsPerformance.csv') #~ This is the method where we can change the data source
+            lg.info('Connection to MongoDB Cloud')
+            client = MongoClient("mongodb+srv://Kaggler:mongocloud@cluster0.d110adr.mongodb.net/")
+            lg.info('Connection successful')
+            db = client["CancerDB"]
+            collection = db["BreastCancer"]
+            lg.info('Downloading data from MongoDB Cloud')
+            # Query MongoDB to fetch data from your collection
+            cursor = collection.find({}) 
+            # Convert the data to a list of dictionaries
+            data = list(cursor)
+            # Convert the list of dictionaries to a pandas DataFrame
+            data = pd.DataFrame(data)
+            lg.info('Dowloading successful')
+            # data = pd.read_csv('notebook/data/StudentsPerformance.csv') #? Local Source
+            #~ This is the method where we can change the data ingestion source
             lg.info('Data ingestion completed')
             
             os.makedirs(os.path.dirname(self.ingestion_config.train_dataset_path), exist_ok=True)
+            lg.info('Feature Selection initiated')
+            corr_matrix = data.corr()
+            threshold = 0.6
+            selected_columns = []
+            # Iterate through the correlation matrix
+            for column in data.columns:
+                # Exclude the column itself (correlation with itself is always 1.0)
+                if column != 'target': 
+                    # Check if the absolute correlation is greater than the threshold
+                    if abs(corr_matrix['target'][column]) > threshold:
+                        selected_columns.append(column)
+            # Extract the selected columns from the DataFrame
+            data = pd.concat([data[selected_columns], data['target']], axis=1)
+            lg.info('Feature Selection completed')
 
             data.to_csv(self.ingestion_config.raw_dataset_path, index=False, header=True)
-
             lg.info('Train test split initiated')
-            train_set,test_set = train_test_split(data,test_size=0.2,random_state=42)
+            train_set,test_set = train_test_split(data,test_size=0.25,random_state=42)
             
             train_set.to_csv(self.ingestion_config.train_dataset_path, index=False, header=True)
             test_set.to_csv(self.ingestion_config.test_dataset_path, index=False, header=True)

@@ -23,20 +23,26 @@ def index():
 def predict():  
          try: 
             data = CustomData(
-                gender = request.form.get('gender'),
-                race_ethnicity = request.form.get('ethnicity'),
-                parental_level_of_education = request.form.get('parental_level_of_education'),
-                lunch = request.form.get('lunch'),
-                test_preparation_course = request.form.get('test_preparation_course'),
-                reading_score = request.form.get('reading_score'),
-                writing_score = request.form.get('writing_score')              
+                mean_radius = request.form.get('mean radius'),
+                mean_perimeter = request.form.get('mean perimeter'),
+                mean_area = request.form.get('mean area'),
+                mean_concavity = request.form.get('mean concavity'),
+                mean_concavity_points = request.form.get('mean concavity points'),
+                worst_radius = request.form.get('worst radius'),
+                worst_perimeter = request.form.get('worst perimeter'),  
+                worst_area = request.form.get('worst area'),
+                worst_concavity = request.form.get('worst concavity'),
+                worst_concavity_points = request.form.get('worst concavity points')      
             )
             pred_df = data.to_dataframe()
             #  print(pred_df)
 
             predict_pipeline = PredictionPipeline()
-            results = predict_pipeline.predict(pred_df)
-            return render_template("home.html",prediction_text=f"Your Predicted Maths Score is {round(results[0],2)}") 
+            result = predict_pipeline.predict(pred_df)
+            if result == 0:
+                return render_template("home.html",prediction_text=f"This patient has Benign Tumor which is not cancerous.")
+            else:
+                 return render_template("home.html",prediction_text=f"This patient has Malignant Tumor which is cancerous.") 
          
          except Exception as e:
             raise CustomException(e, sys)

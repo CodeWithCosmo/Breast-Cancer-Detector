@@ -2,13 +2,13 @@ import os
 import sys
 from dataclasses import dataclass
 
-
-from sklearn.linear_model import LinearRegression
-from sklearn.tree import DecisionTreeRegressor
-from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import RandomForestRegressor,AdaBoostRegressor,GradientBoostingRegressor
-from catboost import CatBoostRegressor
-from xgboost import XGBRegressor
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientBoostingClassifier
+from catboost import CatBoostClassifier
+from xgboost import XGBClassifier
+from sklearn.svm import SVC
 from sklearn.metrics import r2_score
 
 from src.logger import logging as lg
@@ -31,61 +31,64 @@ class ModelTrainer:
 
 
             models = {
-                "decision_tree_regressor": DecisionTreeRegressor(),
-                "random_forest_regressor": RandomForestRegressor(),
-                "gradient_boosting_regressor": GradientBoostingRegressor(),
-                "linear_regressor": LinearRegression(),
-                "xgboost_regressor": XGBRegressor(),
-                "catboost_regressor": CatBoostRegressor(verbose=False),
-                "adaboost_regressor": AdaBoostRegressor(),
-                "knn_regressor": KNeighborsRegressor()
+                "decision_tree_classifier": DecisionTreeClassifier(),
+                "random_forest_classifier": RandomForestClassifier(),
+                "gradient_boosting_classifier": GradientBoostingClassifier(),
+                "logistic_regression": LogisticRegression(),
+                "xgboost_classifier": XGBClassifier(),
+                "catboost_classifier": CatBoostClassifier(verbose=False),
+                "adaboost_classifier": AdaBoostClassifier(),
+                "knn_classifier": KNeighborsClassifier(),
+                "svm_classifier": SVC()
             }
 
             params={
-                "decision_tree_regressor": {
-                    'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
+                "decision_tree_classifier": {
+                    'criterion':['gini','entropy','log_loss'],
                     # 'splitter':['best','random'],
-                    # 'max_features':['sqrt','log2'],
+                    'max_features':['sqrt','log2', None],
                 },
-                "random_forest_regressor":{
-                    # 'criterion':['squared_error', 'friedman_mse', 'absolute_error', 'poisson'],
-                 
-                    # 'max_features':['sqrt','log2',None],
-                    'n_estimators': [8,16,32,64,128,256]
+                "random_forest_classifier":{
+                    'criterion':['gini','entropy','log_loss'],                 
+                    'max_features':['sqrt','log2', None],
+                    'n_estimators': [8,16,32,64]
                 },
-                "gradient_boosting_regressor":{
-                    # 'loss':['squared_error', 'huber', 'absolute_error', 'quantile'],
-                    'learning_rate':[.1,.01,.05,.001],
-                    'subsample':[0.6,0.7,0.75,0.8,0.85,0.9],
+                "gradient_boosting_classifier":{
+                    'loss':['log_loss','exponential'],
+                    'learning_rate':[.1,.01,.001],
                     # 'criterion':['squared_error', 'friedman_mse'],
-                    # 'max_features':['auto','sqrt','log2'],
-                    'n_estimators': [8,16,32,64,128,256]
+                    'max_features':['sqrt','log2', None],
+                    # 'n_estimators': [8,16,32,64]
                 },
-                "liner_regressor":{
-                    "fit_intercept": [True, False],
-                    "positive": [True, False],
-                    "copy_X": [True, False],
-                    "n_jobs": [-1, 1, 2, 4]
+                "logistic_regression":{
+                    # 'penalty':['l1','l2','elasticnet',None],
+                    # 'solver':['newton-cg','lbfgs','liblinear','sag','saga'],
+                    # 'max_iter':[100,500,1000]
+                },          
+                "xgboost_classifier":{
+                    'learning_rate':[.1,.01,.001],
+                    'n_estimators': [8,16,32,64]
                 },
-                "xgboost_regressor":{
-                    'learning_rate':[.1,.01,.05,.001],
-                    'n_estimators': [8,16,32,64,128,256]
-                },
-                "catboost_regressor":{
+                "catboost_classifier":{
                     'depth': [6,8,10],
-                    'learning_rate': [0.01, 0.05, 0.1],
-                    'iterations': [30, 50, 100]
+                    'learning_rate': [.1,.01,.001],
+                    # 'iterations': [30, 50, 100]
                 },
-                "adaboost_regressor":{
-                    'learning_rate':[.1,.01,0.5,.001],
-                    # 'loss':['linear','square','exponential'],
-                    'n_estimators': [8,16,32,64,128,256]
+                "adaboost_classifier":{
+                    'learning_rate':[.1,.01,.001],
+                    'algorithm':['SAMME','SAMME.R'],
+                    'n_estimators': [8,16,32,64]
                 },
-                "knn_regressor" : {
-                    "n_neighbors": [1, 3, 5, 7, 9]
-                # "weights": ["uniform", "distance", "inverse distance"],
-                # "metric": ["minkowski", "manhattan", "chebyshev"],
-                # "algorithm": ["auto", "kd_tree", "ball_tree"]
+                "knn_classifier" : {
+                    "n_neighbors": [1, 3, 5, 7, 9],
+                    "weights": ["uniform", "distance"],
+                    "algorithm": ["auto", "kd_tree", "ball_tree"]
+                },
+                "svm_classifier":{
+                    # "kernel": ["linear", "poly", "rbf", "sigmoid", "precomputed"],
+                    "degree": [1, 2, 3, 4, 5],
+                    "gamma": ["scale", "auto"],
+                    
                 }
             }       
 
@@ -101,7 +104,7 @@ class ModelTrainer:
 
             best_model = models[best_model_name]
 
-            if best_model_score < 0.75:
+            if best_model_score < 0.8:
                 raise Exception('No best model found')
             lg.info('Best model found')
 
