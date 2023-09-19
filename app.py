@@ -1,16 +1,9 @@
-import pickle
 import sys
 from flask import Flask, request,render_template
-
-# import numpy as np
-# import pandas as pd
-
 
 from src.logger import logging as lg
 from src.exception import CustomException
 from src.pipeline.predict_pipeline import PredictionPipeline,CustomData
-
-# from sklearn.preprocessing import StandardScaler
 
 application = Flask(__name__)
 app = application
@@ -27,18 +20,15 @@ def predict():
                 mean_perimeter = request.form.get('mean perimeter'),
                 mean_area = request.form.get('mean area'),
                 mean_concavity = request.form.get('mean concavity'),
-                mean_concavity_points = request.form.get('mean concavity points'),
+                mean_concave_points = request.form.get('mean concave points'),
                 worst_radius = request.form.get('worst radius'),
                 worst_perimeter = request.form.get('worst perimeter'),  
                 worst_area = request.form.get('worst area'),
                 worst_concavity = request.form.get('worst concavity'),
-                worst_concavity_points = request.form.get('worst concavity points')      
+                worst_concave_points = request.form.get('worst concave points')      
             )
-            pred_df = data.to_dataframe()
-            #  print(pred_df)
-
-            predict_pipeline = PredictionPipeline()
-            result = predict_pipeline.predict(pred_df)
+                      
+            result = PredictionPipeline().predict(data.to_dataframe())
             if result == 0:
                 return render_template("home.html",prediction_text=f"This patient has Benign Tumor which is not cancerous.")
             else:
@@ -49,4 +39,4 @@ def predict():
 
 if __name__ == "__main__":
     lg.info('Application started')
-    app.run()
+    app.run(debug=True)

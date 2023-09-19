@@ -27,26 +27,32 @@ class PredictionPipeline:
             raise CustomException(e, sys)
 
 class CustomData:
-    def __init__(self,gender,race_ethnicity,parental_level_of_education,lunch,test_preparation_course,reading_score,writing_score) -> None:
-        self.gender = gender
-        self.race_ethnicity = race_ethnicity
-        self.parental_level_of_education = parental_level_of_education
-        self.lunch = lunch
-        self.test_preparation_course = test_preparation_course
-        self.reading_score = reading_score
-        self.writing_score = writing_score
-
+    def __init__(self,mean_radius,mean_perimeter,mean_area,mean_concavity,mean_concave_points,worst_radius,worst_perimeter,worst_area,worst_concavity,worst_concave_points) -> None:
+        self.mean_radius = mean_radius
+        self.mean_perimeter = mean_perimeter
+        self.mean_area = mean_area
+        self.mean_concavity = mean_concavity
+        self.mean_concave_points = mean_concave_points
+        self.worst_radius = worst_radius
+        self.worst_perimeter = worst_perimeter
+        self.worst_area = worst_area
+        self.worst_concavity = worst_concavity
+        self.worst_concave_points = worst_concave_points
+        
     def to_dataframe(self):
         try:
             lg.info('Creating dataframe')
             input_dict = {
-                'gender': [self.gender],
-                'race_ethnicity': [self.race_ethnicity],
-                'parental_level_of_education': [self.parental_level_of_education],
-                'lunch': [self.lunch],
-                'test_preparation_course': [self.test_preparation_course],
-                'reading_score': [self.reading_score],
-                'writing_score': [self.writing_score]                
+                'mean radius':[self.mean_radius],
+                'mean perimeter':[self.mean_perimeter],
+                'mean area':[self.mean_area],
+                'mean concavity':[self.mean_concavity],
+                'mean concave points':[self.mean_concave_points],
+                'worst radius':[self.worst_radius],
+                'worst perimeter':[self.worst_perimeter],
+                'worst area':[self.worst_area],
+                'worst concavity':[self.worst_concavity],
+                'worst concave points':[self.worst_concave_points]                
             }
             lg.info('Dataframe created')
             dataframe = pd.DataFrame(input_dict)

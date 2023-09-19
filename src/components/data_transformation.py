@@ -1,5 +1,6 @@
 import sys 
 import os
+import joblib
 import numpy as np
 import pandas as pd
 
@@ -15,6 +16,7 @@ from src.utils import save_object
 
 @dataclass
 class DataTransformationConfig:
+    # scaler_obj_file_path = os.path.join('artifacts','scaler.pkl')
     preprocessor_obj_file_path = os.path.join('artifacts','preprocessor.pkl')
 
 class DataTransformation:
@@ -29,8 +31,8 @@ class DataTransformation:
                 ('imputer',SimpleImputer(strategy='mean')),
                 ('scaler',StandardScaler())
             ])
-            lg.info('Numerical pipeline created')          
-            
+            lg.info('Pipeline created')     
+
             preprocessor = ColumnTransformer(
                 [('features',pipeline,features)]
             )
@@ -52,9 +54,6 @@ class DataTransformation:
             preprocessor = self.get_data_transformer()
 
             target_column = ['target']
-            features = ['mean radius','mean perimeter','mean area','mean concavity','mean concave points',
-                        'worst radius','worst perimeter','worst area','worst concavity','worst concave points']
-
             input_feature_train_df = train_df.drop(target_column,axis=1)
             target_feature_train_df = train_df[target_column]            
 
