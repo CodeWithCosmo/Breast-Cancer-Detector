@@ -64,6 +64,7 @@ def read_mongo():
             collection = db[collection]
             cursor = collection.find({}) 
             data = list(cursor)
+            client.close()
             return data
     
     except Exception as e:
