@@ -7,5 +7,6 @@ scikit-learn
 flask
 pymongo
 py-dotenv
+python-dotenv
 gunicorn
 -e .
