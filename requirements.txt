@@ -6,6 +6,6 @@ dill
 scikit-learn
 flask
 pymongo
-python-dotenv
+py-dotenv
 gunicorn
 -e .
