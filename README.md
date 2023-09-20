@@ -1,5 +1,5 @@
-# **`Breast Cancer Detector`**
-## Breast Cancer Detector is an advanced machine learning project designed to aid in the early detection of breast cancer, one of the most prevalent and potentially life-threatening forms of cancer among women worldwide. This project leverages state-of-the-art machine learning techniques to analyze medical imaging data and provide accurate predictions, ultimately assisting healthcare professionals in making more informed decisions and improving patient outcomes.
+# **`Breast Cancer Detection Project`**
+## Breast Cancer Detection is an advanced machine learning project designed to aid in the early detection of breast cancer, one of the most prevalent and potentially life-threatening forms of cancer among women worldwide. This project leverages state-of-the-art machine learning techniques to analyze medical imaging data and provide accurate predictions, ultimately assisting healthcare professionals in making more informed decisions and improving patient outcomes.
 
 > ## Try it out at [Breast Cancer Detector]()
 
@@ -25,8 +25,3 @@ conda activate env/<env_name>
 3. ## Installing the requirements
 ```
 pip install -r requirements.txt
-```
-
-
-
-

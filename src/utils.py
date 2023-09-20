@@ -1,12 +1,13 @@
 import os
 import sys
 import dill
-import numpy as np
-import pandas as pd
+from py_dotenv import dotenv
+from pymongo import MongoClient
 
-from src.exception import CustomException
 from sklearn.metrics import r2_score
 from sklearn.model_selection import GridSearchCV
+from src.exception import CustomException
+from src.logger import logging as lg
 def save_object(file_path,obj):
     try:
         dir_path = os.path.dirname(file_path)
@@ -46,3 +47,24 @@ def load_object(file_path):
             return dill.load(file_obj)
     except Exception as e:
         raise CustomException(e,sys) 
+    
+        
+def read_mongo():
+    try:
+            lg.info('Connection to MongoDB Cloud')
+            dotenv.read_dotenv('.env')
+            client = os.getenv('client')
+            lg.info('Connection successful')
+            
+            database = os.getenv('database')
+            collection = os.getenv('collection')            
+
+            client = MongoClient(client)
+            db = client[database]
+            collection = db[collection]
+            cursor = collection.find({}) 
+            data = list(cursor)
+            return data
+    
+    except Exception as e:
+        raise CustomException(e,sys)

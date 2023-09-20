@@ -2,10 +2,10 @@ import os
 import sys
 import pandas as pd
 from dataclasses import dataclass
-from pymongo import MongoClient
 from src.exception import CustomException
 from sklearn.model_selection import train_test_split
 from src.logger import logging as lg
+from src.utils import read_mongo
 
 # from src.components.data_transformation import DataTransformation
 # from src.components.model_trainer import ModelTrainer
@@ -26,18 +26,8 @@ class DataIngestion:
     def initiate_data_ingestion(self):
         lg.info('Initiating data ingestion')
         try:
-            lg.info('Connection to MongoDB Cloud')
-            client = MongoClient("mongodb+srv://Kaggler:mongocloud@cluster0.d110adr.mongodb.net/")
-            lg.info('Connection successful')
-            db = client["CancerDB"]
-            collection = db["BreastCancer"]
             lg.info('Downloading data from MongoDB Cloud')
-            # Query MongoDB to fetch data from your collection
-            cursor = collection.find({}) 
-            # Convert the data to a list of dictionaries
-            data = list(cursor)
-            # Convert the list of dictionaries to a pandas DataFrame
-            data = pd.DataFrame(data)
+            data = pd.DataFrame(read_mongo())
             lg.info('Dowloading successful')
             # data = pd.read_csv('notebook/data/StudentsPerformance.csv') #? Local Source
             #~ This is the method where we can change the data ingestion source
