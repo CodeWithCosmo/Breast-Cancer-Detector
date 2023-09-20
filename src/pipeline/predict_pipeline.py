@@ -27,7 +27,8 @@ class PredictionPipeline:
             raise CustomException(e, sys)
 
 class CustomData:
-    def __init__(self,mean_radius,mean_perimeter,mean_area,mean_concavity,mean_concave_points,worst_radius,worst_perimeter,worst_area,worst_concavity,worst_concave_points) -> None:
+    def __init__(self,mean_radius,mean_perimeter,mean_area,mean_concavity,mean_concave_points,
+                 worst_radius,worst_perimeter,worst_area,worst_concavity,worst_concave_points):
         self.mean_radius = mean_radius
         self.mean_perimeter = mean_perimeter
         self.mean_area = mean_area
@@ -57,5 +58,6 @@ class CustomData:
             lg.info('Dataframe created')
             dataframe = pd.DataFrame(input_dict)
             return dataframe
+        
         except Exception as e:
             raise CustomException(e, sys)

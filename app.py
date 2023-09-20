@@ -1,7 +1,6 @@
 import sys
 from flask import Flask, request,render_template
 # from waitress import serve 
-
 from src.exception import CustomException
 from src.pipeline.predict_pipeline import PredictionPipeline,CustomData
 
@@ -37,7 +36,7 @@ def predict():
          except Exception as e:
             raise CustomException(e, sys)
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # lg.info('Application started')
-    # app.run(host="0.0.0.0", port=5000, debug=True) #! Development server --- flask run
-    # serve(app, host="0.0.0.0", port=5000, threads=4) #! Production server --- waitress-serve app:app
+    app.run(host="0.0.0.0", port=5000, debug=True) #! Development server --- flask run
+    # serve(app, host="0.0.0.0", port=5000, threads=2) #! Production server --- waitress-serve app:app
