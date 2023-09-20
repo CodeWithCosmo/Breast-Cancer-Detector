@@ -39,4 +39,4 @@ def predict():
 
 if __name__ == "__main__":
     lg.info('Application started')
-    app.run(debug=True)
+    app.run()
