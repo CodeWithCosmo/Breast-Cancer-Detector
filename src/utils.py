@@ -51,7 +51,7 @@ def load_object(file_path):
         
 def read_mongo():
     try:
-            lg.info('Connection to MongoDB Cloud')
+            lg.info('Connecting to MongoDB Cloud')
             dotenv.read_dotenv('.env')
             client = os.getenv('client')
             lg.info('Connection successful')
@@ -66,6 +66,28 @@ def read_mongo():
             data = list(cursor)
             client.close()
             return data
+    
+    except Exception as e:
+        raise CustomException(e,sys)
+def write_mongo(data):
+    try:
+            lg.info('Connecting to MongoDB Cloud')
+            dotenv.read_dotenv('.env')
+            client = os.getenv('client')
+            lg.info('Connection successful')
+            
+            database = os.getenv('database')
+            collection = os.getenv('collection')            
+
+            client = MongoClient(client)
+            db = client[database]
+            collection = db[collection]
+            lg.info('Inserting data into MongoDB Cloud')            
+            data['_id'] = range(1, len(data) + 1)
+            data = data.to_dict(orient='records')
+            collection.insert_many(data)
+            lg.info('Data insertion successful')
+            client.close()            
     
     except Exception as e:
         raise CustomException(e,sys)
