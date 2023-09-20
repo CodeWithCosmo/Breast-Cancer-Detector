@@ -9,4 +9,5 @@ pymongo
 py-dotenv
 python-dotenv
 gunicorn
+
 -e .
