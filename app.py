@@ -36,7 +36,7 @@ def predict():
          except Exception as e:
             raise CustomException(e, sys)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # lg.info('Application started')
-    app.run(host="0.0.0.0", port=5000, debug=True) #! Development server --- flask run
+    # app.run(host="0.0.0.0", port=5000, debug=True) #! Development server --- flask run
     # serve(app, host="0.0.0.0", port=5000, threads=2) #! Production server --- waitress-serve app:app
