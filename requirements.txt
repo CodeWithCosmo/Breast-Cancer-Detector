@@ -6,8 +6,9 @@ dill
 scikit-learn
 flask
 pymongo
-py-dotenv
+# py-dotenv
+waitress
 python-dotenv
-gunicorn
+# gunicorn
 
 -e .
