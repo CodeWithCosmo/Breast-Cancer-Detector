@@ -44,20 +44,20 @@ class ModelTrainer:
 
             params={
                 "decision_tree_classifier": {
-                    'criterion':['gini','entropy','log_loss'],
-                    # 'splitter':['best','random'],
-                    'max_features':['sqrt','log2', None],
+                    # 'criterion':['gini','entropy','log_loss'],
+                    'splitter':['best','random'],
+                    # 'max_features':['sqrt','log2', None],
                 },
                 "random_forest_classifier":{
-                    'criterion':['gini','entropy','log_loss'],                 
-                    'max_features':['sqrt','log2', None],
+                    # 'criterion':['gini','entropy','log_loss'],                 
+                    # 'max_features':['sqrt','log2', None],
                     'n_estimators': [8,16,32,64]
                 },
                 "gradient_boosting_classifier":{
-                    'loss':['log_loss','exponential'],
+                    # 'loss':['log_loss','exponential'],
                     'learning_rate':[.1,.01,.001],
-                    # 'criterion':['squared_error', 'friedman_mse'],
-                    'max_features':['sqrt','log2', None],
+                    'criterion':['squared_error', 'friedman_mse'],
+                    # 'max_features':['sqrt','log2', None],
                     # 'n_estimators': [8,16,32,64]
                 },
                 "logistic_regression":{
@@ -67,27 +67,27 @@ class ModelTrainer:
                 },          
                 "xgboost_classifier":{
                     'learning_rate':[.1,.01,.001],
-                    'n_estimators': [8,16,32,64]
+                    # 'n_estimators': [8,16,32,64]
                 },
                 "catboost_classifier":{
                     'depth': [6,8,10],
                     'learning_rate': [.1,.01,.001],
-                    # 'iterations': [30, 50, 100]
+                    # # 'iterations': [30, 50, 100]
                 },
                 "adaboost_classifier":{
                     'learning_rate':[.1,.01,.001],
-                    'algorithm':['SAMME','SAMME.R'],
-                    'n_estimators': [8,16,32,64]
+                    # 'algorithm':['SAMME','SAMME.R'],
+                    # 'n_estimators': [8,16,32,64]
                 },
                 "knn_classifier" : {
                     "n_neighbors": [1, 3, 5, 7, 9],
-                    "weights": ["uniform", "distance"],
-                    "algorithm": ["auto", "kd_tree", "ball_tree"]
+                    # "weights": ["uniform", "distance"],
+                    # "algorithm": ["auto", "kd_tree", "ball_tree"]
                 },
                 "svm_classifier":{
-                    # "kernel": ["linear", "poly", "rbf", "sigmoid", "precomputed"],
+                    # # "kernel": ["linear", "poly", "rbf", "sigmoid", "precomputed"],
                     "degree": [1, 2, 3, 4, 5],
-                    "gamma": ["scale", "auto"],
+                    # "gamma": ["scale", "auto"],
                     
                 }
             }       
