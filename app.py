@@ -37,7 +37,7 @@ def predict():
          except Exception as e:
             raise CustomException(e, sys)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # lg.info('Application started')
     # app.run()
-    serve(app, host="0.0.0.0", port=5000, threads=4)
+    # serve(app, host="0.0.0.0", port=5000, threads=4)
