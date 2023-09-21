@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestClassifier,AdaBoostClassifier,GradientB
 from catboost import CatBoostClassifier
 from xgboost import XGBClassifier
 from sklearn.svm import SVC
-from sklearn.metrics import r2_score
+from sklearn.metrics import accuracy_score
 
 from src.logger import logging as lg
 from src.exception import CustomException
@@ -113,7 +113,7 @@ class ModelTrainer:
             lg.info('Best model saved')
             
             prediction = best_model.predict(X_test)
-            accuracy = f'R2 score: {r2_score(y_test,prediction)}'
+            accuracy = f'Accuracy Score: {accuracy_score(y_test,prediction)}'
 
             return accuracy            
         

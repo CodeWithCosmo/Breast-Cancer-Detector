@@ -4,7 +4,7 @@ import dill
 from py_dotenv import dotenv
 from pymongo import MongoClient
 
-from sklearn.metrics import r2_score
+from sklearn.metrics import accuracy_score
 from sklearn.model_selection import GridSearchCV
 from src.exception import CustomException
 from src.logger import logging as lg
@@ -34,7 +34,7 @@ def evaluate_model(X_train, y_train, X_test, y_test, models, params):
 
             y_test_pred = model.predict(X_test)
 
-            test_model_score = r2_score(y_test,y_test_pred)
+            test_model_score = accuracy_score(y_test,y_test_pred)
 
             report[list(models.keys())[i]] = test_model_score
         return report
