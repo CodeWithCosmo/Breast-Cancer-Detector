@@ -16,7 +16,6 @@ from src.utils import save_object
 
 @dataclass
 class DataTransformationConfig:
-    # scaler_obj_file_path = os.path.join('artifacts','scaler.pkl')
     preprocessor_obj_file_path = os.path.join('artifacts','preprocessor.pkl')
 
 class DataTransformation:
