@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,21 @@
     </header>
     <main>
         <div class="container">
-            <h2>Enter Patient Details</h2>
+            <h2>Welcome to Breast Cancer Diagnosis</h2>
+            <h3>Use this application to predict breast cancer or train the model for improved accuracy.</h3>
+            <form method="POST" action="/train">
+                <h4>Use this train button for training the model.</h4>
+                <center><input type="submit" value="Train"></center>
+        </div>
+        
+    </form>
+    </main>
+    <br>
+
+    <main>
+        <div class="container">
+            <h2>Enter Patient Details</h2>            
+            
             <form method="POST" action="/predict">
                 <div class="grid-container">
                     <div class="grid-item">
@@ -66,19 +81,16 @@
                         <input type="number" id="worst_concavity_points" name="worst concavity points" step="any" required>
                     </div>
                 </div>
-
-                <center><input type="submit" value="Predict"></center>
+                <h4>Use this predict button to predict the result.</h4>
+                <center><input type="submit" value="Predict"></center>                
             </form>
-
+            
             {% if prediction_text %}
             <div class="result">
                 <p>{{ prediction_text }}</p>
             </div>
             {% endif %}
         </div>
-    </main>
-    <footer>
-        <!-- Add footer content if needed -->
-    </footer>
+    </main>    
 </body>
 </html>

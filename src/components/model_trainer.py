@@ -41,60 +41,10 @@ class ModelTrainer:
                 "knn_classifier": KNeighborsClassifier(),
                 "svm_classifier": SVC()
             }
-
-            params={
-                "decision_tree_classifier": {
-                    # 'criterion':['gini','entropy','log_loss'],
-                    'splitter':['best','random'],
-                    # 'max_features':['sqrt','log2', None],
-                },
-                "random_forest_classifier":{
-                    # 'criterion':['gini','entropy','log_loss'],                 
-                    # 'max_features':['sqrt','log2', None],
-                    'n_estimators': [8,16,32,64]
-                },
-                "gradient_boosting_classifier":{
-                    # 'loss':['log_loss','exponential'],
-                    'learning_rate':[.1,.01,.001],
-                    'criterion':['squared_error', 'friedman_mse'],
-                    # 'max_features':['sqrt','log2', None],
-                    # 'n_estimators': [8,16,32,64]
-                },
-                "logistic_regression":{
-                    # 'penalty':['l1','l2','elasticnet',None],
-                    # 'solver':['newton-cg','lbfgs','liblinear','sag','saga'],
-                    # 'max_iter':[100,500,1000]
-                },          
-                "xgboost_classifier":{
-                    'learning_rate':[.1,.01,.001],
-                    # 'n_estimators': [8,16,32,64]
-                },
-                "catboost_classifier":{
-                    'depth': [6,8,10],
-                    'learning_rate': [.1,.01,.001],
-                    # # 'iterations': [30, 50, 100]
-                },
-                "adaboost_classifier":{
-                    'learning_rate':[.1,.01,.001],
-                    # 'algorithm':['SAMME','SAMME.R'],
-                    # 'n_estimators': [8,16,32,64]
-                },
-                "knn_classifier" : {
-                    "n_neighbors": [1, 3, 5, 7, 9],
-                    # "weights": ["uniform", "distance"],
-                    # "algorithm": ["auto", "kd_tree", "ball_tree"]
-                },
-                "svm_classifier":{
-                    # # "kernel": ["linear", "poly", "rbf", "sigmoid", "precomputed"],
-                    "degree": [1, 2, 3, 4, 5],
-                    # "gamma": ["scale", "auto"],
-                    
-                }
-            }       
-
+            
             lg.info('Hyperparameter tuning initiated')
             lg.info('Initiating model trainer and model evaluation')
-            model_report: dict = evaluate_model(X_train, y_train, X_test, y_test, models, params)
+            model_report: dict = evaluate_model(X_train, y_train, X_test, y_test, models)
             lg.info('Hyperparameter tuning completed')
             lg.info('Model training and evaluation completed')
 
@@ -113,7 +63,7 @@ class ModelTrainer:
             lg.info('Best model saved')
             
             prediction = best_model.predict(X_test)
-            accuracy = f'Accuracy Score: {accuracy_score(y_test,prediction)}'
+            accuracy = accuracy_score(y_test,prediction)
 
             return accuracy            
         

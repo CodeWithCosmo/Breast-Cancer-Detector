@@ -76,7 +76,7 @@ class DataTransformation:
             lg.info('Preprocessor object saved')
             lg.info('Data transformation completed')
 
-            return train_arr,test_arr,self.data_transformation_config.preprocessor_obj_file_path
+            return train_arr,test_arr
             
         except Exception as e:
             raise CustomException(e, sys)
