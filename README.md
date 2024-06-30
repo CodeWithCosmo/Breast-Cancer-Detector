@@ -20,7 +20,7 @@
 ```
 conda create --name cancer python==3.8 -y
 ```
-2. ## Activateing the environment
+2. ## Activating the environment
 ```
 conda activate cancer
 ```
